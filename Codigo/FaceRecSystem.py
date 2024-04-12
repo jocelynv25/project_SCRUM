@@ -95,7 +95,7 @@ while True:
 
     if len(faces) > 0:
         attempts = attempts + 1
-
+    print("# de intento: ", attempts)
     #iteramos sobre todos los rostros que se puedan detectar
     for facecod, faceloc in zip(facescod, faces):
         #comparar rostros de la bd con rostro del video
@@ -111,10 +111,10 @@ while True:
         porcentaje = (1 - np.min(simi))*100
 
         #si el valor que está como valor minimo de similitudes es true, se imprimen los datos de esta posicion
-        if comparacion[min]:
+        if comparacion[min] and porcentaje > 50:
             nombre = clases[min].upper()
             #se imprime el nombre y hora de acceso
-            print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje, "%")
+            print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje,"%")
             #extrae coordenadas
             horario(nombre)
             flag = True
