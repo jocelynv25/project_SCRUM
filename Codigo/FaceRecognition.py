@@ -42,5 +42,14 @@ def codRostros(images):
     return listacod
 
 #Registro de hora de ingreso
+def horario(nombre):
+    #extraer fecha y hora actual
+    info = datetime.now
+    #extraer fecha
+    fecha = info.strftime('%d:%m:%Y')
+    #extraer la hora
+    hora = info.strftime('%H:%M:%S')
+    #imprimir la informacion
+    print(nombre, fecha, hora)
 
-
+    
