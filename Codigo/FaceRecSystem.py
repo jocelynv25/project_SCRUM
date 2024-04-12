@@ -5,7 +5,6 @@ import face_recognition as fr
 import os 
 import random
 from datetime import datetime
-import face_recognition_models
 import time
 
 #Acceder a la carpeta en donde se tienen guardadas las imagenes (AQUI TENDRIA QUE SER DE LA BASE DE DATOS)
@@ -48,7 +47,7 @@ def horario(nombre):
     #extraer fecha y hora actual
     info = datetime.now()
     #extraer fecha
-    fecha = info.strftime('%d:%m:%Y')
+    fecha = info.strftime('%d/%m/%Y')
     #extraer la hora
     hora = info.strftime('%H:%M:%S')
     #imprimir la informacion
@@ -63,9 +62,11 @@ cap = cv2.VideoCapture(0)
 startTime = time.time()
 
 flag = False
+attempts = 0
+
 while True:
-    #leer los fotogramas del video 
-    if time.time() - startTime > 30:
+    time.sleep(2) #cada 2 segundos se ejecuta el ciclo
+    if time.time() - startTime > 60:
         print("Ha excedido el límite de tiempo para acceso por reconocimiento facial. Intente entrar ingresando su código de acceso.")
         break  
     
@@ -73,7 +74,13 @@ while True:
     if flag:
         time.sleep(3)
         print("ACCESO EXITOSO")
-        break; 
+        break
+    
+    if attempts >= 5:
+        print("Ha excedido el límite de intentos. Ingrese por medio de contraseña.")
+        break  
+    
+    #leer los fotogramas del video 
     ret, frame = cap.read()
 
     #reducir el tamaño de las imagenes para un mejor procesamiento
@@ -85,6 +92,9 @@ while True:
     #buscar rostros dentro del video
     faces = fr.face_locations(rgb)
     facescod = fr.face_encodings(rgb, faces) #codifica rostros
+
+    if len(faces) > 0:
+        attempts = attempts + 1
 
     #iteramos sobre todos los rostros que se puedan detectar
     for facecod, faceloc in zip(facescod, faces):
@@ -103,15 +113,12 @@ while True:
         #si el valor que está como valor minimo de similitudes es true, se imprimen los datos de esta posicion
         if comparacion[min]:
             nombre = clases[min].upper()
-            
             #se imprime el nombre y hora de acceso
             print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje, "%")
             #extrae coordenadas
             horario(nombre)
             flag = True
         
-
-    
     #mostrar frames
     cv2.imshow("Reconocimiento facial", frame)
 
