@@ -66,14 +66,14 @@ attempts = 0
 nameFound = ""
 
 while True:
-    time.sleep(2) #cada 2 segundos se ejecuta el ciclo
+    time.sleep(0.5) #cada segundo se ejecuta el ciclo
     if time.time() - startTime > 60:
         print("Ha excedido el límite de tiempo para acceso por reconocimiento facial. Intente entrar ingresando su código de acceso.")
         break  
     
     #se detiene después de haber encontrado una similitud con un rostro.
     if flag:
-        time.sleep(3)
+        #time.sleep(3)
         if nameFound == "ADMINISTRADOR":
             print("ACCESO EXITOSO COMO ADMINISTRADOR")
         else:
