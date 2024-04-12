@@ -9,7 +9,7 @@ class CameraApp(tk.Tk):
         self.geometry(f"{screen_width}x{screen_height}")
 
         # Cambiar el icono de la ventana
-        self.iconbitmap("Iconos/reconocimiento-facial.ico")
+        self.iconbitmap("C:/Users/jocel/Documents/project_SCRUM/Codigo/Interfaces Graficas/Interfaces Graficas/Iconos/reconocimiento-facial.ico")
 
         #Cambiar Titulo de la Ventana
         self.title("Reconocimiento Facial")
