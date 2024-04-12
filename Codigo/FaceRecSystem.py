@@ -1,6 +1,4 @@
 #Importar librerias
-#Face recognition: sirve para el reconocimiento facial
-
 import cv2 
 import numpy as np
 import face_recognition as fr
@@ -8,12 +6,12 @@ import os
 import random
 from datetime import datetime
 import face_recognition_models
-
+import time
 
 #Acceder a la carpeta en donde se tienen guardadas las imagenes (AQUI TENDRIA QUE SER DE LA BASE DE DATOS)
-dir_path = os.path.dirname(os.path.realpath(__file__))
-path = os.path.join(dir_path, 'imagenes_prueba')
-#path = "C:/Users/jocel/Documents/prueba"
+#dir_path = os.path.dirname(os.path.realpath(__file__))
+#path = os.path.join(dir_path, 'imagenes_prueba')
+path = "C:/Users/jocel/Documents/prueba"
 images = [] #almacena todas las imagenes que tenga la base de datos
 clases = [] #almacena los nombres de las imagenes para que estos se asignen como 'clases' (para la clasificacion de imagenes)
 lista = os.listdir(path)
@@ -62,9 +60,20 @@ rostroscod = codRostros(images)
 #Realizar videocaptura, se conecta a la camara con el indice de la camara a utilizar.
 cap = cv2.VideoCapture(0)
 
-#empezar ciclo infinito
+startTime = time.time()
+
+flag = False
 while True:
     #leer los fotogramas del video 
+    if time.time() - startTime > 30:
+        print("Ha excedido el límite de tiempo para acceso por reconocimiento facial. Intente entrar ingresando su código de acceso.")
+        break  
+    
+    #se detiene después de haber encontrado una similitud con un rostro.
+    if flag:
+        time.sleep(3)
+        print("ACCESO EXITOSO")
+        break; 
     ret, frame = cap.read()
 
     #reducir el tamaño de las imagenes para un mejor procesamiento
@@ -81,20 +90,26 @@ while True:
     for facecod, faceloc in zip(facescod, faces):
         #comparar rostros de la bd con rostro del video
         #compara los rostros y devuelve una lista de booleanos que indica si los rostros son considerados como el mismo o no
-        comparacion = fr.compare_faces(rostroscod, facecod)
+        comparacion = fr.compare_faces(rostroscod, facecod) 
 
         #calcular la similitud
-        simi = fr.face_distance(rostroscod, facecod)
+        simi = fr.face_distance(rostroscod, facecod) #lista con porcentajes de diferencia
         #buscar valor más bajo de similitudes, entre menor sea el valor, menos diferencia hay por lo que se detecta como dicha persona
-        min = np.argmin(simi)
+        min = np.argmin(simi) #guarda la posicion en donde se almacena el menor porcentaje
+        
+        #guarda el porcentaje de la similitud
+        porcentaje = (1 - np.min(simi))*100
 
+        #si el valor que está como valor minimo de similitudes es true, se imprimen los datos de esta posicion
         if comparacion[min]:
             nombre = clases[min].upper()
             
             #se imprime el nombre y hora de acceso
-            print (nombre)
+            print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje, "%")
             #extrae coordenadas
             horario(nombre)
+            flag = True
+        
 
     
     #mostrar frames
