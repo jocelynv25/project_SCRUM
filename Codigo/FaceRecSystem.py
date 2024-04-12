@@ -115,7 +115,7 @@ while True:
     #mostrar frames
     cv2.imshow("Reconocimiento facial", frame)
 
-    #leemos teclado
+    #si se presiona letra scape se sale del ciclo
     t = cv2.waitKey(5)
     if t==27:
         break
