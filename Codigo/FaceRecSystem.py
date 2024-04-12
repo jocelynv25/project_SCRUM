@@ -63,6 +63,7 @@ startTime = time.time()
 
 flag = False
 attempts = 0
+nameFound = ""
 
 while True:
     time.sleep(2) #cada 2 segundos se ejecuta el ciclo
@@ -73,7 +74,10 @@ while True:
     #se detiene después de haber encontrado una similitud con un rostro.
     if flag:
         time.sleep(3)
-        print("ACCESO EXITOSO")
+        if nameFound == "ADMINISTRADOR":
+            print("ACCESO EXITOSO COMO ADMINISTRADOR")
+        else:
+            print("ACCESO EXITOSO COMO INQUILINO")
         break
     
     if attempts >= 5:
@@ -113,6 +117,7 @@ while True:
         #si el valor que está como valor minimo de similitudes es true, se imprimen los datos de esta posicion
         if comparacion[min] and porcentaje > 50:
             nombre = clases[min].upper()
+            nameFound = nombre
             #se imprime el nombre y hora de acceso
             print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje,"%")
             #extrae coordenadas
