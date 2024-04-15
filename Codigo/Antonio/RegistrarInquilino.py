@@ -80,7 +80,7 @@ entry_codigo = tk.Entry(Ventana, width=40)
 entry_codigo.grid(row=2, column=1, padx=10, pady=5)
 
 # Botón para procesar los datos
-boton_procesar = tk.Button(Ventana, text="Procesar DatOS", command=procesar_datos)
+boton_procesar = tk.Button(Ventana, text="Aceptar", command=procesar_datos)
 boton_procesar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 # Iniciar la aplicación

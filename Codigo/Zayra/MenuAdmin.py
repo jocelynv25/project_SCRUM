@@ -1,7 +1,6 @@
 import os
 
 import subprocess
-import time
 import tkinter as tk
 from tkinter import messagebox
 
@@ -79,7 +78,6 @@ boton4.grid(column=0,row=6, padx=5, pady=5)
 boton5=tk.Button(ventana, text="Salir", command = salir,  font=("Helvetican", 14),bg="#3D8AF7")
 boton5.grid(column=0,row=10, padx=40, pady=40)
 
-time.sleep(1)
 messagebox.showinfo("Acceso correcto", "Ha accedido como administrador.")
 ventana.mainloop()
 

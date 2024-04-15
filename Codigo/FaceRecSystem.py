@@ -96,6 +96,7 @@ while True:
     if flag:
         #time.sleep(3)
         if nameFound == "ADMINISTRADOR":
+            time.sleep(1)
             showMenuAdm()
         else:
             #messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
