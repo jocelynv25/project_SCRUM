@@ -22,7 +22,7 @@ def showConsultarAcc():
     ventana.withdraw()
 
 def showConsultarInt():
-    subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Juan Angel/Karla/interfaz_intrusos.pyy'])
+    subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Juan Angel/interfaz_intrusos.pyy'])
     ventana.withdraw()
 
 
