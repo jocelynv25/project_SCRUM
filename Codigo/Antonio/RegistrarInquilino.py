@@ -1,10 +1,13 @@
+import os
 import subprocess
 import firebase_admin
 from firebase_admin import credentials , db
 
 import tkinter as tk
 
-cred = credentials.Certificate("serviceAccount.json")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+pathJSON = os.path.join(dir_path, 'serviceAccount.json')
+cred = credentials.Certificate(pathJSON)
 firebase_admin.initialize_app(cred,{'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'})
 
 # Get a database reference to our blog.
@@ -24,7 +27,8 @@ def guardar_datos(nombre , direccion , codigo):
         'Id' : new_user_key
     })
     ##Enviar los datos al otro programa
-    subprocess.Popen(['python', 'reconocimiento.py', nombre, direccion, codigo, new_user_key])
+    pathRECO = os.path.join(dir_path, 'reconocimiento.py')
+    subprocess.Popen(['python', pathRECO, nombre, direccion, codigo, new_user_key])
 
 def procesar_datos():
     nombre = entry_nombre.get()

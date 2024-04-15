@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
@@ -21,7 +22,9 @@ ventana1.configure(bg='#FFFFFF')
 marco_principal = tk.Frame(ventana1, bg='blue', padx=10, pady=10)  #  margen azul
 marco_principal.pack(expand=True, fill="both")
 
-imagen = Image.open("c:\\Users\\Dulce Gabriela\\Documents\\proyecto\\imagen.png")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+pathIMG = os.path.join(dir_path, 'casita.png')
+imagen = Image.open(pathIMG)
 imagen_tk = ImageTk.PhotoImage(imagen)
 
 imagen_label = tk.Label(ventana1, image=imagen_tk, bg='#FFFFFF')

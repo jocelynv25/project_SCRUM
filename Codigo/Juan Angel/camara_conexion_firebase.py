@@ -18,7 +18,9 @@ de cada archivo.
 '''
 
 #Inicializamos Firebase con las credenciales de nuestro proyecto
-cred = credentials.Certificate('serviceAccount.json')
+dir_path = os.path.dirname(os.path.realpath(__file__))
+pathJSON = os.path.join(dir_path, 'serviceAccount.json')
+cred = credentials.Certificate(pathJSON)
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'proyectonoemi-449f2.appspot.com'
 })
