@@ -1,3 +1,5 @@
+import os
+
 import tkinter as tk
 def salir():
     # Llamada llamar el método mainloop() para cambiar de ventana 
@@ -17,7 +19,9 @@ ventana.minsize(width=300, height=500)
 ventana.maxsize(width=300, height=500)
 ventana.config(padx=35, pady=35)
 
-img = tk.PhotoImage(file="R.png")
+dir_path = os.path.dirname(os.path.realpath(__file__))
+path = os.path.join(dir_path, 'R.png')
+img = tk.PhotoImage(file=path)
 img = img.subsample(7, 7)  
 
 # mostrar la imagen como icono
