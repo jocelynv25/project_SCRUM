@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 
+import sys
+
 # Función para verificar la contraseña
 def verificar_contraseña():
     # Aquí se implementaría la lógica para comparar la contraseña con la base de datos
@@ -13,9 +15,17 @@ def salir():
 
 # Crear la ventana principal
 ventana = tk.Tk()
-ventana.title("Acceso")
-ventana.geometry("300x200")  # Tamaño inicial de la ventana
+ventana.title("Acceso por código")
 ventana.resizable(True, True)  # Permitir que la ventana sea redimensionable
+
+#Obtener coordenadas de la pantalla del ordenador
+ancho_ventana = 300
+alto_ventana = 200
+ancho_pan = ventana.winfo_screenwidth()
+alto_pan = ventana.winfo_screenheight()
+x = (ancho_pan - ancho_ventana) // 2
+y = (alto_pan - alto_ventana) // 2
+ventana.geometry('{}x{}+{}+{}'.format(ancho_ventana, alto_ventana, x, y)) 
 
 # Crear un label para la contraseña
 label_contraseña = tk.Label(ventana, text="Contraseña:")
@@ -34,4 +44,6 @@ boton_salir = tk.Button(ventana, text="Salir", command=salir)
 boton_salir.pack()
 
 # Ejecutar la aplicación
+mensaje = sys.argv[1]
+messagebox.showerror("Acceso denegado", mensaje +"\nIngrese su código de acceso.")
 ventana.mainloop()

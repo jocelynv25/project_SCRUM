@@ -42,11 +42,11 @@ def procesar_datos():
     entry_codigo.delete(0, 'end')
     # Llamar al programa que abre la cámara y pasar los datos como argumentos de línea de comandos
 
-def cerrar_y_abrir():
+#def cerrar_y_abrir():
     # Cierra la ventana actual
-    ventana.destroy()
+    #ventana.destroy()
     # Abre la nueva ventana
-    abrir_nueva_ventana()
+    #abrir_nueva_ventana()
 
 # Crear ventana
 Ventana = tk.Tk()

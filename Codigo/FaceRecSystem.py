@@ -7,6 +7,9 @@ import random
 from datetime import datetime
 import time
 
+from tkinter import messagebox
+import subprocess
+
 #Acceder a la carpeta en donde se tienen guardadas las imagenes (AQUI TENDRIA QUE SER DE LA BASE DE DATOS)
 #dir_path = os.path.dirname(os.path.realpath(__file__))
 #path = os.path.join(dir_path, 'imagenes_prueba')
@@ -53,6 +56,13 @@ def horario(nombre):
     #imprimir la informacion
     print(nombre, fecha, hora)
 
+def showContra(mensaje):
+    pathCONTRA = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Jonathan/Interfaz Contra.py'
+    subprocess.Popen(['python', pathCONTRA, mensaje])
+    cv2.destroyAllWindows()
+    cap.release()
+
+
 #llamamos la funcion de codificar
 rostroscod = codRostros(images)
 
@@ -67,9 +77,8 @@ nameFound = ""
 
 while True:
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
-    if time.time() - startTime > 60:
-        print("Ha excedido el límite de tiempo para acceso por reconocimiento facial. Intente entrar ingresando su código de acceso.")
-        break  
+    if time.time() - startTime > 10:
+        showContra("Se ha excedido el tiempo límite.")
     
     #se detiene después de haber encontrado una similitud con un rostro.
     if flag:
@@ -77,12 +86,12 @@ while True:
         if nameFound == "ADMINISTRADOR":
             print("ACCESO EXITOSO COMO ADMINISTRADOR")
         else:
-            print("ACCESO EXITOSO COMO INQUILINO")
+            messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
+            #print("ACCESO EXITOSO COMO "+nameFound)
         break
     
     if attempts >= 5:
-        print("Ha excedido el límite de intentos. Ingrese por medio de contraseña.")
-        break  
+        showContra("Se ha excedido el límite de intentos.")
     
     #leer los fotogramas del video 
     ret, frame = cap.read()
