@@ -62,6 +62,12 @@ def showContra(mensaje):
     cv2.destroyAllWindows()
     cap.release()
 
+def showAccAut(inquilino):
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/AccAutorizado.py'
+    subprocess.Popen(['python', pathACC, inquilino])
+    cv2.destroyAllWindows()
+    cap.release()
+
 
 #llamamos la funcion de codificar
 rostroscod = codRostros(images)
@@ -86,9 +92,9 @@ while True:
         if nameFound == "ADMINISTRADOR":
             print("ACCESO EXITOSO COMO ADMINISTRADOR")
         else:
-            messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
+            #messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
             #print("ACCESO EXITOSO COMO "+nameFound)
-        break
+            showAccAut(nameFound)
     
     if attempts >= 5:
         showContra("Se ha excedido el límite de intentos.")
