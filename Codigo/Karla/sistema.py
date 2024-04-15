@@ -5,7 +5,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 
 def showFaceRec():
-    #messagebox.showinfo("Entrando al sistema", "Cargando el sistema de reconocimiento facial...")
+    messagebox.showinfo("Entrando al sistema", "Cargando el sistema de reconocimiento facial...")
     subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/FaceRecSystem.py'])
     ventana1.withdraw()
 

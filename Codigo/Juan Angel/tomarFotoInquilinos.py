@@ -70,11 +70,11 @@ def actualizar_frame():
         messagebox.showerror("Error: No frame") 
 
 def showMenuAdm():
-    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
-    subprocess.Popen(['python', pathACC])
-    cv2.destroyAllWindows()
+    #Al cerrar la ventana, se liberan los recursos de cámara y se destruyen las ventanas creadas.
     cam.release()
     cv2.destroyAllWindows()
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
 
 #Captura una imagen desde la cámara
 def tomar_foto():
@@ -98,7 +98,7 @@ def tomar_foto():
             
             #Nos conectamos con Firebase, creando un bucket, y lo subimos con un blob (almacena datos binarios).
             bucket = storage.bucket()
-            blob = bucket.blob('Intrusos/' + time.strftime("%Y_%m_%d - %H_%M_%S") + '.png')
+            blob = bucket.blob('Inquilinos/' + time.strftime("%Y_%m_%d - %H_%M_%S") + '.png')
             blob.upload_from_string(img_byte_arr, 'image/png')
             messagebox.showinfo("Exito!", "Foto subida con éxito!")
             showMenuAdm()

@@ -2,13 +2,16 @@
 import cv2 
 import numpy as np
 import face_recognition as fr
-import os 
+import os, firebase_admin
 import random
 from datetime import datetime
 import time
 
-from tkinter import messagebox
-import subprocess
+from tkinter import Image, messagebox
+import subprocess, io
+from firebase_admin import credentials, storage
+
+from PIL import Image, ImageTk
 
 #Acceder a la carpeta en donde se tienen guardadas las imagenes (AQUI TENDRIA QUE SER DE LA BASE DE DATOS)
 #dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -17,6 +20,13 @@ path = "C:/Users/jocel/Documents/prueba"
 images = [] #almacena todas las imagenes que tenga la base de datos
 clases = [] #almacena los nombres de las imagenes para que estos se asignen como 'clases' (para la clasificacion de imagenes)
 lista = os.listdir(path)
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+pathJSON = os.path.join(dir_path, 'serviceAccount.json')
+cred = credentials.Certificate(pathJSON)
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'proyectonoemi-449f2.appspot.com'
+})
 
 #Lee las imagenes de la carpeta (BD)
 for lis in lista:
@@ -56,6 +66,30 @@ def horario(nombre):
     #imprimir la informacion
     print(nombre, fecha, hora)
 
+def tomar_foto(carpeta):
+    #Toma un frame de la cámara
+    ret, frame = cap.read()
+
+    if ret:
+        #Convierte el frame de BGR a RGB
+        image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+
+        #Se guarda en un buffer de bytes
+        img_byte_arr = io.BytesIO()
+
+        #Se guarda en formato PNG
+        image.save(img_byte_arr, format='PNG')
+        img_byte_arr = img_byte_arr.getvalue()    
+    
+        #Nos conectamos con Firebase, creando un bucket, y lo subimos con un blob (almacena datos binarios).
+        bucket = storage.bucket()
+        blob = bucket.blob(carpeta + time.strftime("%Y_%m_%d - %H_%M_%S") + '.png')
+        blob.upload_from_string(img_byte_arr, 'image/png')
+        print("Foto subida con éxito!")
+    else:   
+        print("Fallo en la captura de la imagen.")
+    
+
 def showContra(mensaje):
     pathCONTRA = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Jonathan/Interfaz Contra.py'
     subprocess.Popen(['python', pathCONTRA, mensaje])
@@ -84,30 +118,41 @@ cap = cv2.VideoCapture(0)
 startTime = time.time()
 
 flag = False
+flagWhile = True
 attempts = 0
 nameFound = ""
 
-while True:
+while flagWhile:
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
-    if time.time() - startTime > 10:
+    if time.time() - startTime > 60:
         showContra("Se ha excedido el tiempo límite.")
+        flagWhile = False
     
     #se detiene después de haber encontrado una similitud con un rostro.
     if flag:
         #time.sleep(3)
+        flagWhile = False
+
         if nameFound == "ADMINISTRADOR":
             time.sleep(1)
             showMenuAdm()
         else:
             #messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
             #print("ACCESO EXITOSO COMO "+nameFound)
+            tomar_foto('Accesos/')
             showAccAut(nameFound)
     
-    if attempts >= 5:
-        showContra("Se ha excedido el límite de intentos.")
+    if attempts >= 4:
+        tomar_foto('Intrusos/')
+        showContra("Se ha excedido el límite de intentos para el reconocimiento.")
+        flagWhile = False
     
     #leer los fotogramas del video 
     ret, frame = cap.read()
+
+    # Verificar si se pudo leer correctamente el fotograma
+    if not ret:
+        continue
 
     #reducir el tamaño de las imagenes para un mejor procesamiento
     frame2 = cv2.resize(frame, (0,0), None, 0.25, 0.25)

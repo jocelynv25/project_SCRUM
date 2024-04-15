@@ -18,11 +18,11 @@ def showBorrar():
     ventana.withdraw()
 
 def showConsultarAcc():
-    subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Juan Angel/Karla/interfaz_intrusos.py'])
+    subprocess.Popen(['python', 'Codigo/Juan Angel/interfaz_accesos.py'])
     ventana.withdraw()
 
 def showConsultarInt():
-    subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Juan Angel/interfaz_intrusos.pyy'])
+    subprocess.Popen(['python', 'Codigo/Juan Angel/interfaz_intrusos.py'])
     ventana.withdraw()
 
 
