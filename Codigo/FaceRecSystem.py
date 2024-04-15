@@ -68,6 +68,12 @@ def showAccAut(inquilino):
     cv2.destroyAllWindows()
     cap.release()
 
+def showMenuAdm():
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
+    cv2.destroyAllWindows()
+    cap.release()
+
 
 #llamamos la funcion de codificar
 rostroscod = codRostros(images)
@@ -90,7 +96,7 @@ while True:
     if flag:
         #time.sleep(3)
         if nameFound == "ADMINISTRADOR":
-            print("ACCESO EXITOSO COMO ADMINISTRADOR")
+            showMenuAdm()
         else:
             #messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
             #print("ACCESO EXITOSO COMO "+nameFound)

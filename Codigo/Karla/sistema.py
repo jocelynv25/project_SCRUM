@@ -1,25 +1,28 @@
 import os
+import subprocess
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-def abrir_ventana2():
-    ventana1.withdraw()  
-    
-    ventana2 = tk.Toplevel()
-    ventana2.title("Sistema de Reconocimiento Facial")
-    ventana2.geometry("400x200")
-    
-    etiqueta = tk.Label(ventana2, text="¡Has entrado al sistema!", font=("Arial", 20))
-    etiqueta.pack(pady=50)
+def showFaceRec():
+    #messagebox.showinfo("Entrando al sistema", "Cargando el sistema de reconocimiento facial...")
+    subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/FaceRecSystem.py'])
+    ventana1.withdraw()
 
 
 ventana1 = tk.Tk()
 ventana1.title("Bienvenido al Sistema de Reconocimiento Facial")
-ventana1.geometry("400x400")
 ventana1.configure(bg='#FFFFFF')  
 
-marco_principal = tk.Frame(ventana1, bg='blue', padx=10, pady=10)  #  margen azul
+ancho_ventana = 500
+alto_ventana = 350
+ancho_pan = ventana1.winfo_screenwidth()
+alto_pan = ventana1.winfo_screenheight()
+x = (ancho_pan - ancho_ventana) // 2
+y = (alto_pan - alto_ventana) // 2
+ventana1.geometry('{}x{}+{}+{}'.format(ancho_ventana, alto_ventana, x, y)) 
+
+marco_principal = tk.Frame(ventana1, bg="#0844A4", padx=10, pady=10)  #  margen azul
 marco_principal.pack(expand=True, fill="both")
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -36,7 +39,7 @@ frame_contenedor.pack(expand=True)
 cuadro_texto = tk.Label(frame_contenedor, text="SISTEMA DE RECONOCIMIENTO FACIAL", font=("Arial", 14), bg='#FFFFFF')
 cuadro_texto.pack(pady=5) 
 
-boton_entrar = tk.Button(frame_contenedor, text="ENTRAR AL SISTEMA", bg='#000099', fg="white", font=("Arial", 12), command=abrir_ventana2)
+boton_entrar = tk.Button(frame_contenedor, text="ENTRAR AL SISTEMA", bg='#0844A4', fg="white", font=("Arial", 12), command=showFaceRec)
 boton_entrar.pack(pady=5, padx=50, ipadx=10, ipady=3)  
 
 ventana1.mainloop()
