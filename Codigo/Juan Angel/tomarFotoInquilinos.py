@@ -10,8 +10,9 @@ import cv2, time, os, io, firebase_admin
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
-from firebase_admin import credentials, storage
+from firebase_admin import credentials, storage , db
 import face_recognition as fr
+import sys
 
 '''
 Dentro de este script, tenemos la parte donde, al tomar las fotos, se subirán
@@ -21,8 +22,30 @@ de cada archivo.
 
 cred = credentials.Certificate('Codigo/serviceAccount.json')
 firebase_admin.initialize_app(cred, {
-    'storageBucket': 'proyectonoemi-449f2.appspot.com'
+    'storageBucket': 'proyectonoemi-449f2.appspot.com',
+    'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'
 })
+
+# Get a database reference to our blog.
+ref = db.reference('/')
+users_ref = ref.child('Inquilinos')
+# Generar un ID único para el usuario
+new_user_ref = users_ref.push()
+# Obtener la clave generada por push()
+idNuevoInquilino = new_user_ref.key
+
+def guardar_datos(nombre , direccion , codigo, urlFoto):
+    new_user_ref.set({
+        'Fotografia': urlFoto,
+        'Codigo': codigo,
+        'Direccion': direccion,
+        'Nombre' : nombre,
+        'Id' : idNuevoInquilino
+    })
+
+nombre = sys.argv[1]
+direccion = sys.argv[2]
+codigo = sys.argv[3]
 
 #Se crea la ventana principal
 window = Tk()
@@ -81,11 +104,9 @@ def tomar_foto():
     #buscar rostros dentro del video
     rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     faces = fr.face_locations(rgb)
-    if len(faces) == 1:
+    if len(faces) == 1: #valida que en la foto haya un solo rostro
         if ret:
-            #Convierte el frame de BGR a RGB
             image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-
             #Se guarda en un buffer de bytes
             img_byte_arr = io.BytesIO()
 
@@ -95,23 +116,29 @@ def tomar_foto():
             
             #Nos conectamos con Firebase, creando un bucket, y lo subimos con un blob (almacena datos binarios).
             bucket = storage.bucket()
-            blob = bucket.blob('Inquilinos/' + time.strftime("%Y_%m_%d - %H_%M_%S") + '.png')
+            #La imagen se guarda en /Inquilinos/idusuario.png
+            blob = bucket.blob('Inquilinos/'+ idNuevoInquilino + '_' +nombre+ '.png')
             blob.upload_from_string(img_byte_arr, 'image/png')
-            messagebox.showinfo("Exito!", "Foto subida con éxito!")
+
+            urlFoto = idNuevoInquilino + '_' +nombre+ '.png'
+
+            guardar_datos(nombre, direccion, codigo, urlFoto)
+            messagebox.showinfo("Cambios guardados", "Nuevo registro añadido con éxito.")
             showMenuAdm()
         else:   
             messagebox.showerror("Fallo en la captura de la imagen.")
     else:
-        messagebox.showerror("Error de imagen", "No se detectó ningún rostro en la foto tomada o se detectó más de un rostro. Intente de nuevo")
+        messagebox.showerror("Error de imagen", "Asegúrese de que sólo se muestre un rostro en la foto e intente de nuevo")
 
 #Se nos mostrará el video en un label
 lmain = Label(window)
 lmain.pack()
 
 #Botón para poder tomar la foto (opcional)
-btn_capturar = Button(window, text="Tomar foto", command=tomar_foto)
+btn_capturar = Button(window, text="Tomar foto y guardar cambios.", command=tomar_foto)
 btn_capturar.pack()
 
+print("Abriendo cámara para la toma de fotografía.")
 #Bucle de Tkinter, mantiene ventana abierta y actualiza el contenido
 actualizar_frame()
 window.mainloop()

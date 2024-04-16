@@ -66,10 +66,7 @@ def horario(nombre):
     #imprimir la informacion
     print(nombre, fecha, hora)
 
-def tomar_foto(carpeta):
-    #Toma un frame de la cámara
-    ret, frame = cap.read()
-
+def tomar_foto(carpeta, ret, frame):
     if ret:
         #Convierte el frame de BGR a RGB
         image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -135,15 +132,16 @@ while flagWhile:
 
         if nameFound == "ADMINISTRADOR":
             time.sleep(1)
+            messagebox.showinfo("Acceso correcto", "Ha accedido como administrador.")
             showMenuAdm()
         else:
             #messagebox.showinfo("Acceso autorizado", "Bienvenid@ "+nameFound)
             #print("ACCESO EXITOSO COMO "+nameFound)
-            tomar_foto('Accesos/')
+            #tomar_foto('Accesos/')
             showAccAut(nameFound)
     
     if attempts >= 4:
-        tomar_foto('Intrusos/')
+        tomar_foto('Intrusos/', ret, frame)
         showContra("Se ha excedido el límite de intentos para el reconocimiento.")
         flagWhile = False
     
@@ -189,6 +187,7 @@ while flagWhile:
             print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje,"%")
             #extrae coordenadas
             horario(nombre)
+            tomar_foto('Accesos/', ret, frame)
             flag = True
         
     #mostrar frames

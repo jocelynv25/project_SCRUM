@@ -5,48 +5,16 @@ from firebase_admin import credentials , db
 
 import tkinter as tk
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-pathJSON = os.path.join(dir_path, 'serviceAccount.json')
-cred = credentials.Certificate(pathJSON)
-firebase_admin.initialize_app(cred,{'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'})
-
-# Get a database reference to our blog.
-ref = db.reference('/')
-users_ref = ref.child('Inquilinos')
-
-def guardar_datos(nombre , direccion , codigo):
-    # Generar un ID único para el usuario
-    new_user_ref = users_ref.push()
-    # Obtener la clave generada por push()
-    new_user_key = new_user_ref.key
-    new_user_ref.set({
-        'Fotografia': "",
-        'Codigo de Acceso': codigo,
-        'Direccion': direccion,
-        'Nombre' : nombre,
-        'Id' : new_user_key
-    })
-    ##Enviar los datos al otro programa
-    pathRECO = os.path.join(dir_path, 'reconocimiento.py')
-    subprocess.Popen(['python', pathRECO, nombre, direccion, codigo, new_user_key])
-
-def procesar_datos():
+def btnSiguiente():
     nombre = entry_nombre.get()
     direccion = entry_direccion.get()
-    codigo_acceso = entry_codigo.get()
-    # Aquí puedes realizar cualquier función que desees con los datos
-    guardar_datos(nombre,direccion,codigo_acceso)
-    # Borra el contenido de los Entry después de guardar los datos
-    entry_nombre.delete(0, 'end')
-    entry_direccion.delete(0, 'end')
-    entry_codigo.delete(0, 'end')
-    # Llamar al programa que abre la cámara y pasar los datos como argumentos de línea de comandos
+    codigo = entry_codigo.get()
 
-#def cerrar_y_abrir():
-    # Cierra la ventana actual
-    #ventana.destroy()
-    # Abre la nueva ventana
-    #abrir_nueva_ventana()
+    #Borrar contenido de los entry ???
+
+    #Enviar los datos al programa de la toma de fotografía
+    subprocess.Popen(['python', 'Codigo/Juan Angel/tomarFotoInquilinos.py', nombre, direccion, codigo])
+    Ventana.withdraw()
 
 # Crear ventana
 Ventana = tk.Tk()
@@ -80,7 +48,7 @@ entry_codigo = tk.Entry(Ventana, width=40)
 entry_codigo.grid(row=2, column=1, padx=10, pady=5)
 
 # Botón para procesar los datos
-boton_procesar = tk.Button(Ventana, text="Aceptar", command=procesar_datos)
+boton_procesar = tk.Button(Ventana, text="Siguiente", command=btnSiguiente)
 boton_procesar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 # Iniciar la aplicación
