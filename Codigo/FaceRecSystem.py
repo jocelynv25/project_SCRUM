@@ -2,33 +2,52 @@
 import cv2 
 import numpy as np
 import face_recognition as fr
-import os, firebase_admin
+import os, firebase_admin, requests
 import random
 from datetime import datetime
 import time
-
+from io import BytesIO
 from tkinter import Image, messagebox
 import subprocess, io
 from firebase_admin import credentials, storage
 
 from PIL import Image, ImageTk
 
-#Acceder a la carpeta en donde se tienen guardadas las imagenes (AQUI TENDRIA QUE SER DE LA BASE DE DATOS)
-#dir_path = os.path.dirname(os.path.realpath(__file__))
-#path = os.path.join(dir_path, 'imagenes_prueba')
-path = "C:/Users/jocel/Documents/prueba"
-images = [] #almacena todas las imagenes que tenga la base de datos
-clases = [] #almacena los nombres de las imagenes para que estos se asignen como 'clases' (para la clasificacion de imagenes)
-lista = os.listdir(path)
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-pathJSON = os.path.join(dir_path, 'serviceAccount.json')
-cred = credentials.Certificate(pathJSON)
+cred = credentials.Certificate('Codigo/serviceAccount.json')
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'proyectonoemi-449f2.appspot.com'
 })
 
-#Lee las imagenes de la carpeta (BD)
+#path = "C:/Users/jocel/Documents/prueba"
+images = [] #almacena todas las imagenes que tenga la base de datos
+clases = [] #almacena los nombres de las imagenes para que estos se asignen como 'clases' (para la clasificacion de imagenes)
+#lista = os.listdir(path)
+
+def bajar_imagenes(directorio):
+    #Accede a bucket de Firebase y lista archivos que contienen un prefijo, 'Intrusos\'    
+    bucket = storage.bucket()
+    blobs = bucket.list_blobs(prefix=directorio)
+
+    #Itera los blobs (archivos)
+    for blob in blobs:
+        #Genera una URL temporal
+        url = blob.generate_signed_url(version="v4", expiration=3600)
+        
+        #Solicitud para descargar la imagen con el URL generado
+        respuesta = requests.get(url)
+        imagen = Image.open(BytesIO(respuesta.content))
+
+        #Almacenamos imágenes sin el prefijo en una lista y se retorna dicha.
+        nombre_sin_directorio = blob.name[len(directorio):]
+        
+        images.append(np.array(imagen)) #convertir imagen a nparray
+        clases.append(nombre_sin_directorio)
+
+bajar_imagenes('Inquilinos/')
+
+
+'''
+#Lee las imagenes de la carpeta (local)
 for lis in lista:
     #lee imagenes de los rostros
     imgdb = cv2.imread(f'{path}/{lis}')
@@ -36,6 +55,7 @@ for lis in lista:
     images.append(imgdb)
     #se guarda el nombre de la persona de la imagen
     clases.append(os.path.splitext(lis)[0])
+'''
 
 #imprime todos los nombres de las personas encontradas
 print(clases)
@@ -47,6 +67,8 @@ def codRostros(images):
     #iterar sobre cada imagen que existe en la lista de todas las imagenes
     for img in images:
         #correccion de color
+        if img is None:
+            continue
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         #codificar la imagen
         cod = fr.face_encodings(img)[0]
@@ -120,6 +142,7 @@ attempts = 0
 nameFound = ""
 
 while flagWhile:
+    
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
     if time.time() - startTime > 60:
         showContra("Se ha excedido el tiempo límite.")
@@ -147,6 +170,8 @@ while flagWhile:
     
     #leer los fotogramas del video 
     ret, frame = cap.read()
+     #mostrar frames
+    cv2.imshow("Reconocimiento facial", frame)
 
     # Verificar si se pudo leer correctamente el fotograma
     if not ret:
@@ -182,16 +207,13 @@ while flagWhile:
         #si el valor que está como valor minimo de similitudes es true, se imprimen los datos de esta posicion
         if comparacion[min] and porcentaje > 50:
             nombre = clases[min].upper()
-            nameFound = nombre
+            nameFound = nombre[21:-4]
             #se imprime el nombre y hora de acceso
             print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje,"%")
             #extrae coordenadas
             horario(nombre)
             tomar_foto('Accesos/', ret, frame)
             flag = True
-        
-    #mostrar frames
-    cv2.imshow("Reconocimiento facial", frame)
 
     #si se presiona letra scape se sale del ciclo
     t = cv2.waitKey(5)

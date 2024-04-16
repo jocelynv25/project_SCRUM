@@ -87,12 +87,10 @@ def actualizar_frame():
         #Actualiza el frame cada 10 milisegundos usando recursión.
         lmain.after(10, actualizar_frame)
     else:
-        messagebox.showerror("Error: No frame") 
+        messagebox.showerror("Error", "No frame") 
 
 def showMenuAdm():
     #Al cerrar la ventana, se liberan los recursos de cámara y se destruyen las ventanas creadas.
-    cam.release()
-    cv2.destroyAllWindows()
     pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
     subprocess.Popen(['python', pathACC])
 
@@ -121,12 +119,15 @@ def tomar_foto():
             blob.upload_from_string(img_byte_arr, 'image/png')
 
             urlFoto = idNuevoInquilino + '_' +nombre+ '.png'
-
             guardar_datos(nombre, direccion, codigo, urlFoto)
+
+            #cam.release()
+            cv2.destroyAllWindows()
+            window.withdraw()
             messagebox.showinfo("Cambios guardados", "Nuevo registro añadido con éxito.")
             showMenuAdm()
         else:   
-            messagebox.showerror("Fallo en la captura de la imagen.")
+            messagebox.showerror("Error", "Error en la captura de la imagen.")
     else:
         messagebox.showerror("Error de imagen", "Asegúrese de que sólo se muestre un rostro en la foto e intente de nuevo")
 

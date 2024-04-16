@@ -13,6 +13,7 @@ def showFaceRec():
 ventana1 = tk.Tk()
 ventana1.title("Bienvenido al Sistema de Reconocimiento Facial")
 ventana1.configure(bg='#FFFFFF')  
+ventana1.resizable(False, False)
 
 ancho_ventana = 500
 alto_ventana = 350
