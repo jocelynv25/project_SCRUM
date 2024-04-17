@@ -14,6 +14,8 @@ from firebase_admin import credentials, storage , db
 import face_recognition as fr
 import sys
 
+import tkinter as tk
+
 '''
 Dentro de este script, tenemos la parte donde, al tomar las fotos, se subirán
 a nuestro Storage de Firebase en formato .png, la fecha y hora siendo el nombre 
@@ -131,6 +133,11 @@ def tomar_foto():
     else:
         messagebox.showerror("Error de imagen", "Asegúrese de que sólo se muestre un rostro en la foto e intente de nuevo")
 
+def volverMenu():
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
+    window.destroy()
+
 #Se nos mostrará el video en un label
 lmain = Label(window)
 lmain.pack()
@@ -138,6 +145,9 @@ lmain.pack()
 #Botón para poder tomar la foto (opcional)
 btn_capturar = Button(window, text="Tomar foto y guardar cambios.", command=tomar_foto)
 btn_capturar.pack()
+
+volverbt = tk.Button(window, text="Volver al menú",bg="#0844A4",fg="white",width=12, font=("Arial", 10), command=volverMenu)
+volverbt.place(relx=1.0, rely=1.0, anchor='se', x=-480, y=-14)
 
 print("Abriendo cámara para la toma de fotografía.")
 #Bucle de Tkinter, mantiene ventana abierta y actualiza el contenido

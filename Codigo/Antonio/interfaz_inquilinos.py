@@ -1,3 +1,4 @@
+import subprocess
 import firebase_admin, requests
 import tkinter as tk
 from tkinter import ttk
@@ -33,7 +34,7 @@ def cargar_datos():
             id= inquilino_data.get('Id','')
             nombre = inquilino_data.get('Nombre', '')
             direccion = inquilino_data.get('Direccion', '')
-            codigo_acceso = inquilino_data.get('Codigo de Acceso', '')
+            codigo_acceso = inquilino_data.get('Codigo', '')
             listbox.insert(tk.END, f"{nombre},  {direccion}, Código de Acceso: {codigo_acceso}")
     else:
         listbox.insert(tk.END, "No hay inquilinos registrados")
@@ -77,6 +78,10 @@ def seleccion(event):
 def salir():
     root.destroy()
 
+def volverMenu():
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
+    root.destroy()
 
 # Se muestra la ventana principal
 root = tk.Tk()
@@ -123,5 +128,7 @@ cargar_datos()
 exit_button = tk.Button(root, text="Salir",bg="red",fg="white",width=10, font=("Arial", 12), command=salir)
 exit_button.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
 
+volverbt = tk.Button(root, text="Volver al menú",bg="#0844A4",fg="white",width=12, font=("Arial", 10), command=volverMenu)
+volverbt.place(relx=1.0, rely=1.0, anchor='se', x=-520, y=-10)
 # Mantiene abierta y en funcionamiento la app hasta cerrarla.
 root.mainloop()

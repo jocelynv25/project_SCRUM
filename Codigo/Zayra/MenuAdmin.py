@@ -68,19 +68,19 @@ titulo.grid(column=0,row=1,padx=30, pady=30)
 
 
 #Botones
-boton1=tk.Button(ventana, text="Registrar nuevo inquilino", command = showRegister, font=("Helvetica", 14),width=20, height=1, bg="#0844A4")
+boton1=tk.Button(ventana, text="Registrar nuevo inquilino", command = showRegister, fg="white", font=("Helvetica", 14),width=20, height=1, bg="#0844A4")
 boton1.grid(column=0,row=3, padx=5, pady=5)
 
-boton2=tk.Button(ventana, text="Consultar inquilinos", command = showConsultarInq,  font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
+boton2=tk.Button(ventana, text="Consultar inquilinos", command = showConsultarInq, fg="white",  font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
 boton2.grid(column=0,row=4, padx=5, pady=5)
 
-boton3=tk.Button(ventana, text="Consultar acceso*", command = showConsultarAcc, font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
+boton3=tk.Button(ventana, text="Consultar accesos", command = showConsultarAcc, fg="white", font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
 boton3.grid(column=0,row=5, padx=5, pady=5)
 
-boton4=tk.Button(ventana, text="Consultar intrusos", command = showConsultarInt, font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
+boton4=tk.Button(ventana, text="Consultar intrusos", command = showConsultarInt, fg="white", font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
 boton4.grid(column=0,row=6, padx=5, pady=5)
 
-boton5=tk.Button(ventana, text="Salir", command = salir,  font=("Helvetican", 14),bg="#3D8AF7")
+boton5=tk.Button(ventana, text="Salir", command = salir, fg="white",  font=("Helvetican", 14),bg="#3D8AF7")
 boton5.grid(column=0,row=10, padx=40, pady=40)
 
 #messagebox.showinfo("Acceso correcto", "Ha accedido como administrador.")

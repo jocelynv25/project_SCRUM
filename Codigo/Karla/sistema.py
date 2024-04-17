@@ -9,11 +9,15 @@ def showFaceRec():
     subprocess.Popen(['python', 'C:/Users/jocel/Documents/project_SCRUM/Codigo/FaceRecSystem.py'])
     ventana1.withdraw()
 
+def on_closing():
+    if messagebox.askokcancel("Salir", "¿Seguro que quieres salir?"):
+        ventana1.destroy()
 
 ventana1 = tk.Tk()
 ventana1.title("Bienvenido al Sistema de Reconocimiento Facial")
 ventana1.configure(bg='#FFFFFF')  
 ventana1.resizable(False, False)
+ventana1.protocol("WM_DELETE_WINDOW", on_closing)
 
 ancho_ventana = 500
 alto_ventana = 350

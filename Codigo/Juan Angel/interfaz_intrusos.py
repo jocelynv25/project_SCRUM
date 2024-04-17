@@ -1,4 +1,5 @@
 import os
+import subprocess
 import firebase_admin, requests
 import tkinter as tk
 from tkinter import ttk
@@ -56,6 +57,12 @@ def seleccion(event):
 def cerrar_ventana():
     root.destroy()
 
+
+def volverMenu():
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
+    root.destroy()
+
 #Se muestra la ventana principal
 root = tk.Tk()
 root.title("Intrusos.")
@@ -99,6 +106,9 @@ for nombre_imagen, _ in imagenes:
 #Botón para cerrar ventana
 exit_button = tk.Button(root, text="Salir", command=cerrar_ventana)
 exit_button.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
+
+volverbt = tk.Button(root, text="Volver al menú",bg="#0844A4",fg="white",width=12, font=("Arial", 10), command=volverMenu)
+volverbt.place(relx=1.0, rely=1.0, anchor='se', x=-520, y=-10)
 
 #Mantiene abierta y en funcionamiento la app hasta cerrarla.
 root.mainloop()

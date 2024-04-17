@@ -16,6 +16,11 @@ def btnSiguiente():
     subprocess.Popen(['python', 'Codigo/Juan Angel/tomarFotoInquilinos.py', nombre, direccion, codigo])
     Ventana.withdraw()
 
+def volverMenu():
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
+    subprocess.Popen(['python', pathACC])
+    Ventana.destroy()
+
 # Crear ventana
 Ventana = tk.Tk()
 Ventana.title("Registrar Inquilino")
@@ -48,8 +53,11 @@ entry_codigo = tk.Entry(Ventana, width=40)
 entry_codigo.grid(row=2, column=1, padx=10, pady=5)
 
 # Botón para procesar los datos
-boton_procesar = tk.Button(Ventana, text="Siguiente", command=btnSiguiente)
+boton_procesar = tk.Button(Ventana, text="Siguiente", command=btnSiguiente, bg="#0844A4",fg="white",width=12, font=("Arial", 10))
 boton_procesar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+
+volverbt = tk.Button(Ventana, text="Volver al menú",bg="#3D8AF7",fg="white",width=12, font=("Arial", 10), command=volverMenu)
+volverbt.grid(row=6, column=0, columnspan=1, padx=1, pady=1)
 
 # Iniciar la aplicación
 Ventana.mainloop()
