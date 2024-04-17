@@ -45,7 +45,7 @@ ventana.geometry('{}x{}+{}+{}'.format(ancho_ventana, alto_ventana, x, y))
 ventana.configure(bg="white")
 
 # Abrir la imagen
-imagen_pillow = Image.open("fotos/CodigoAcceso.jpg")
+imagen_pillow = Image.open("CodigoAcceso.jpg")
 imagenRed=imagen_pillow.resize((120, 120)) #Redimensionar
 # Convertir la imagen de Pillow a un formato compatible con Tkinter
 imagen = ImageTk.PhotoImage(imagenRed)
