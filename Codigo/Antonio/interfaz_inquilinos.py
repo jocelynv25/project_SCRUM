@@ -12,7 +12,7 @@ nos mostrará la instatánea tomada
 '''
 
 # Inicializamos Firebase con las credenciales de nuestro proyecto
-cred = credentials.Certificate('serviceAccount.json')
+cred = credentials.Certificate('Codigo/serviceAccount.json')
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'proyectonoemi-449f2.appspot.com'
 ,'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'})
@@ -67,7 +67,7 @@ def seleccion(event):
     index = listbox.curselection()
     # Si hay un index, se redimensiona la imagen y se muestra en un campo de Tkinter.
     if index:
-        image = imagenes[index[0]][1].resize((200, 200), Image.BICUBIC)
+        image = imagenes[index[0]][1].resize((400, 300), Image.BICUBIC)
         photo = ImageTk.PhotoImage(image)
         label.image = photo
         label.config(image=photo)

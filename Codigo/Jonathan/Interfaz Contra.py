@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import firebase_admin
 from firebase_admin import credentials , db
 
-cred = credentials.Certificate("serviceAccount.json")
+cred = credentials.Certificate("Codigo/serviceAccount.json")
 firebase_admin.initialize_app(cred,{'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'})
 # Get a database reference to our blog.
 ref = db.reference('/')
@@ -45,7 +45,7 @@ ventana.geometry('{}x{}+{}+{}'.format(ancho_ventana, alto_ventana, x, y))
 ventana.configure(bg="white")
 
 # Abrir la imagen
-imagen_pillow = Image.open("CodigoAcceso.jpg")
+imagen_pillow = Image.open("Codigo/Jonathan/CodigoAcceso.jpg")
 imagenRed=imagen_pillow.resize((120, 120)) #Redimensionar
 # Convertir la imagen de Pillow a un formato compatible con Tkinter
 imagen = ImageTk.PhotoImage(imagenRed)

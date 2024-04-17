@@ -25,6 +25,11 @@ def showConsultarInt():
     subprocess.Popen(['python', 'Codigo/Juan Angel/interfaz_intrusos.py'])
     ventana.withdraw()
 
+def showConsultarInq():
+    subprocess.Popen(['python', 'Codigo/Antonio/interfaz_inquilinos.py'])
+    ventana.withdraw()
+
+
 
     
 ventana = tk.Tk()
@@ -66,7 +71,7 @@ titulo.grid(column=0,row=1,padx=30, pady=30)
 boton1=tk.Button(ventana, text="Registrar nuevo inquilino", command = showRegister, font=("Helvetica", 14),width=20, height=1, bg="#0844A4")
 boton1.grid(column=0,row=3, padx=5, pady=5)
 
-boton2=tk.Button(ventana, text="Borrar inquilino*", command = showBorrar,  font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
+boton2=tk.Button(ventana, text="Consultar inquilinos", command = showConsultarInq,  font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
 boton2.grid(column=0,row=4, padx=5, pady=5)
 
 boton3=tk.Button(ventana, text="Consultar acceso*", command = showConsultarAcc, font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
