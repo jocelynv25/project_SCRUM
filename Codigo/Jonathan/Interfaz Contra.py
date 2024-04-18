@@ -1,4 +1,5 @@
 import subprocess
+import sys
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
@@ -12,7 +13,7 @@ firebase_admin.initialize_app(cred,{'databaseURL': 'https://proyectonoemi-449f2-
 ref = db.reference('/')
 users_ref = ref.child('Inquilinos')
 
-global nameFound
+global nameFound, idInquilino
 
 def showAccAut(inquilino):
     pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/AccAutorizado.py'
@@ -30,13 +31,28 @@ def verificar_contraseña():
     if not buscar_valor(data, valor_buscado):
         messagebox.showerror("Error","Error: Codigo de Acceso incorrecto"+"\n  Ingresar su Codigo de Acceso o Contactar a su Administrador")
     else:
+        subirAccesobd(valor_buscado)
         showAccAut(nameFound)
-
-
 
 # Función para salir de la aplicación
 def salir():
     ventana.destroy()
+
+def subirAccesobd(codigoUsado):
+    # Get a database reference to our blog.
+    ref = db.reference('/')
+    users_ref = ref.child('Accesos_codigo')
+    new_user_ref = users_ref.push()
+    # Obtener la clave generada por push()
+    idAcceso = new_user_ref.key
+
+    new_user_ref.set({
+        'Fotografia': fotoIntruso,
+        'Codigo_usado': codigoUsado,
+        'nombre_Inquilino': nameFound,
+        'id_Inquilino': idInquilino,
+        'Id' : new_user_ref.key,
+    })
 
 # Crear la ventana principal
 ventana = tk.Tk()
@@ -80,12 +96,13 @@ boton_salir = tk.Button(ventana, text="Salir",bg="#3D8AF7",fg="white",width=10, 
 boton_salir.pack(side="bottom", anchor="se",padx=10, pady=10)
 #Metodo para buscar el valor en la base de Datos
 def buscar_valor(objeto, valor_buscado):
-    global nameFound
+    global nameFound, idInquilino
 
     if isinstance(objeto, dict):
         if "Codigo" in objeto and objeto["Codigo"] == valor_buscado:
             print(f"El valor '{valor_buscado}' se encontró en la clave 'Codigo de Acceso'")
             nameFound = objeto.get("Nombre")
+            idInquilino = objeto.get("Id")
             print(objeto.get("Nombre")) #Recuperar el nombre del Inquilino con ese Codigo de Acceso
             return True  # Valor encontrado
         else:
@@ -102,7 +119,9 @@ def buscar_valor(objeto, valor_buscado):
     return False  # Valor no encontrado
 
 # Ejecutar la aplicación
-#mensaje = sys.argv[1]
-#messagebox.showerror("Acceso denegado", mensaje +"\nIngrese su código de acceso.")
+mensaje = sys.argv[1]
+messagebox.showerror("Acceso denegado", mensaje +"\nIngrese su código de acceso.")
 #messagebox.showerror("Acceso denegado", "\nIngrese su código de acceso.")
+global fotoIntruso
+fotoIntruso = sys.argv[2]
 ventana.mainloop()

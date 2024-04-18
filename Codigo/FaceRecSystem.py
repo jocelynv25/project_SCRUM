@@ -88,7 +88,8 @@ def horario(nombre):
     #imprimir la informacion
     print(nombre, fecha, hora)
 
-def tomar_foto(carpeta, ret, frame):
+def tomar_foto(carpeta, ret, frame, intruso):
+    global fotoIntruso
     if ret:
         #Convierte el frame de BGR a RGB
         image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -102,16 +103,20 @@ def tomar_foto(carpeta, ret, frame):
     
         #Nos conectamos con Firebase, creando un bucket, y lo subimos con un blob (almacena datos binarios).
         bucket = storage.bucket()
-        blob = bucket.blob(carpeta + time.strftime("%Y_%m_%d - %H_%M_%S") + '.png')
+        nombre = time.strftime("%Y_%m_%d - %H_%M_%S") + '.png'
+        nombreFoto = carpeta + nombre
+        blob = bucket.blob(nombreFoto)
         blob.upload_from_string(img_byte_arr, 'image/png')
         print("Foto subida con éxito!")
+        if intruso:
+            fotoIntruso = nombre
     else:   
         print("Fallo en la captura de la imagen.")
     
-
 def showContra(mensaje):
+    global fotoIntruso
     pathCONTRA = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Jonathan/Interfaz Contra.py'
-    subprocess.Popen(['python', pathCONTRA, mensaje])
+    subprocess.Popen(['python', pathCONTRA, mensaje, fotoIntruso])
     cv2.destroyAllWindows()
     cap.release()
 
@@ -145,6 +150,7 @@ while flagWhile:
     
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
     if time.time() - startTime > 60:
+        tomar_foto('Intrusos/', ret, frame, True)
         showContra("Se ha excedido el tiempo límite.")
         flagWhile = False
     
@@ -164,7 +170,7 @@ while flagWhile:
             showAccAut(nameFound)
     
     if attempts >= 4:
-        tomar_foto('Intrusos/', ret, frame)
+        tomar_foto('Intrusos/', ret, frame, True)
         showContra("Se ha excedido el límite de intentos para el reconocimiento.")
         flagWhile = False
     
@@ -212,7 +218,7 @@ while flagWhile:
             print ("Persona: ", nombre ," Porcentaje de similitud:", porcentaje,"%")
             #extrae coordenadas
             horario(nombre)
-            tomar_foto('Accesos/', ret, frame)
+            tomar_foto('Accesos/', ret, frame, False)
             flag = True
 
     #si se presiona letra scape se sale del ciclo
