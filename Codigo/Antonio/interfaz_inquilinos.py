@@ -18,6 +18,8 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': 'proyectonoemi-449f2.appspot.com'
 ,'databaseURL': 'https://proyectonoemi-449f2-default-rtdb.firebaseio.com'})
 
+print("\n Cargando datos de inquilinos...")
+
 # Función para cargar los datos de la base de datos y mostrarlos en el Listbox
 def cargar_datos():
     # Get a database reference to our blog.

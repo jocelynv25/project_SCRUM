@@ -29,7 +29,9 @@ def showConsultarInq():
     subprocess.Popen(['python', 'Codigo/Antonio/interfaz_inquilinos.py'])
     ventana.withdraw()
 
-
+def showConsulAccCod():
+    subprocess.Popen(['python', 'Codigo/interfaz_accporcod.py'])
+    ventana.withdraw()
 
     
 ventana = tk.Tk()
@@ -41,7 +43,7 @@ ventana.maxsize(width=300, height=500)
 ventana.config(padx=35, pady=35)
 
 ancho_ventana = 300
-alto_ventana = 500
+alto_ventana = 600
 ancho_pan = ventana.winfo_screenwidth()
 alto_pan = ventana.winfo_screenheight()
 x = (ancho_pan - ancho_ventana) // 2
@@ -78,6 +80,9 @@ boton3=tk.Button(ventana, text="Consultar accesos", command = showConsultarAcc, 
 boton3.grid(column=0,row=5, padx=5, pady=5)
 
 boton4=tk.Button(ventana, text="Consultar intrusos", command = showConsultarInt, fg="white", font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
+boton4.grid(column=0,row=6, padx=5, pady=5)
+
+boton4=tk.Button(ventana, text="Ver accesos por código", command = showConsulAccCod, fg="white", font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
 boton4.grid(column=0,row=6, padx=5, pady=5)
 
 boton5=tk.Button(ventana, text="Salir", command = salir, fg="white",  font=("Helvetican", 14),bg="#3D8AF7")

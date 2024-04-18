@@ -20,6 +20,8 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': 'proyectonoemi-449f2.appspot.com'
 })
 
+print("\nCargando datos de accesos...")
+
 #Almacena las imágenes del directorio dado
 def bajar_imagenes(directorio):
     #Accede a bucket de Firebase y lista archivos que contienen un prefijo, 'Intrusos\'    

@@ -149,7 +149,7 @@ nameFound = ""
 while flagWhile:
     
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
-    if time.time() - startTime > 10:
+    if time.time() - startTime > 60:
         tomar_foto('Intrusos/', ret, frame, True)
         showContra("Se ha excedido el tiempo límite.")
         flagWhile = False
@@ -169,7 +169,7 @@ while flagWhile:
             #tomar_foto('Accesos/')
             showAccAut(nameFound)
     
-    if attempts >= 4:
+    if attempts > 6:
         tomar_foto('Intrusos/', ret, frame, True)
         showContra("Se ha excedido el límite de intentos para el reconocimiento.")
         flagWhile = False
