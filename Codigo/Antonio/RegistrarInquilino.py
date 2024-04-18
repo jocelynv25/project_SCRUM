@@ -1,4 +1,5 @@
 import os, cv2
+from tkinter import messagebox
 import subprocess
 import firebase_admin
 from firebase_admin import credentials , db
@@ -9,12 +10,13 @@ def btnSiguiente():
     nombre = entry_nombre.get()
     direccion = entry_direccion.get()
     codigo = entry_codigo.get()
-
-    #Borrar contenido de los entry ???
-
-    #Enviar los datos al programa de la toma de fotografía
-    subprocess.Popen(['python', 'Codigo/Juan Angel/tomarFotoInquilinos.py', nombre, direccion, codigo])
-    Ventana.withdraw()
+    
+    if nombre.strip() == '' or direccion.strip() == '' or codigo.strip() == '':
+        messagebox.showerror("Error", "Por favor, complete todos los campos.")
+    else:
+        #Enviar los datos al programa de la toma de fotografía
+        subprocess.Popen(['python', 'Codigo/Juan Angel/tomarFotoInquilinos.py', nombre, direccion, codigo])
+        Ventana.withdraw()
 
 def volverMenu():
     pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/Zayra/MenuAdmin.py'
