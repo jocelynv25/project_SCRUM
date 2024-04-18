@@ -149,7 +149,7 @@ nameFound = ""
 while flagWhile:
     
     time.sleep(0.5) #cada segundo se ejecuta el ciclo
-    if time.time() - startTime > 60:
+    if time.time() - startTime > 10:
         tomar_foto('Intrusos/', ret, frame, True)
         showContra("Se ha excedido el tiempo límite.")
         flagWhile = False
