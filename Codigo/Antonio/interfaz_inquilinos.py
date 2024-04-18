@@ -35,7 +35,7 @@ def cargar_datos():
             nombre = inquilino_data.get('Nombre', '')
             direccion = inquilino_data.get('Direccion', '')
             codigo_acceso = inquilino_data.get('Codigo', '')
-            listbox.insert(tk.END, f"{nombre},  {direccion}, Código de Acceso: {codigo_acceso}")
+            listbox.insert(tk.END, f"NOMBRE: {nombre}  DIRECCIÓN:{direccion} CÓDIGO: {codigo_acceso}")
     else:
         listbox.insert(tk.END, "No hay inquilinos registrados")
 

@@ -31,18 +31,14 @@ firebase_admin.initialize_app(cred, {
 # Get a database reference to our blog.
 ref = db.reference('/')
 users_ref = ref.child('Inquilinos')
-# Generar un ID único para el usuario
-new_user_ref = users_ref.push()
-# Obtener la clave generada por push()
-idNuevoInquilino = new_user_ref.key
 
-def guardar_datos(nombre , direccion , codigo, urlFoto):
+def guardar_datos(nombre , direccion , codigo, urlFoto, new_user_ref):
     new_user_ref.set({
         'Fotografia': urlFoto,
         'Codigo': codigo,
         'Direccion': direccion,
         'Nombre' : nombre,
-        'Id' : idNuevoInquilino
+        'Id' : new_user_ref.key
     })
 
 nombre = sys.argv[1]
@@ -64,6 +60,8 @@ window.resizable(False, False)
 
 #Se inicia la captura de video
 cam = cv2.VideoCapture(0)
+global actFlag
+actFlag = True
 
 #Si la cámara no abre por cualquier razón, mostrará un mensaje de error.
 if not cam.isOpened():
@@ -78,7 +76,7 @@ def actualizar_frame():
         #Convierte el frame de BGR a RGB
         cv_img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         img = Image.fromarray(cv_img)
-
+        
         #Lo transforma a un formato de imagen Tkinter
         imgtk = ImageTk.PhotoImage(image=img)
 
@@ -89,7 +87,8 @@ def actualizar_frame():
         #Actualiza el frame cada 10 milisegundos usando recursión.
         lmain.after(10, actualizar_frame)
     else:
-        messagebox.showerror("Error", "No frame") 
+        if actFlag:
+            messagebox.showerror("Error", "No frame") 
 
 def showMenuAdm():
     #Al cerrar la ventana, se liberan los recursos de cámara y se destruyen las ventanas creadas.
@@ -98,6 +97,7 @@ def showMenuAdm():
 
 #Captura una imagen desde la cámara
 def tomar_foto():
+    global actFlag
     #Toma un frame de la cámara
     ret, frame = cam.read()
 
@@ -114,6 +114,12 @@ def tomar_foto():
             image.save(img_byte_arr, format='PNG')
             img_byte_arr = img_byte_arr.getvalue()
             
+
+            # Generar un ID único para el usuario
+            new_user_ref = users_ref.push()
+            # Obtener la clave generada por push()
+            idNuevoInquilino = new_user_ref.key
+
             #Nos conectamos con Firebase, creando un bucket, y lo subimos con un blob (almacena datos binarios).
             bucket = storage.bucket()
             #La imagen se guarda en /Inquilinos/idusuario.png
@@ -121,12 +127,13 @@ def tomar_foto():
             blob.upload_from_string(img_byte_arr, 'image/png')
 
             urlFoto = idNuevoInquilino + '_' +nombre+ '.png'
-            guardar_datos(nombre, direccion, codigo, urlFoto)
-
-            #cam.release()
-            cv2.destroyAllWindows()
+            guardar_datos(nombre, direccion, codigo, urlFoto, new_user_ref)
+            
+            actFlag = False
             window.withdraw()
             messagebox.showinfo("Cambios guardados", "Nuevo registro añadido con éxito.")
+            cam.release()
+            cv2.destroyAllWindows()
             showMenuAdm()
         else:   
             messagebox.showerror("Error", "Error en la captura de la imagen.")
@@ -147,11 +154,12 @@ btn_capturar = Button(window, text="Tomar foto y guardar cambios.", command=toma
 btn_capturar.pack()
 
 volverbt = tk.Button(window, text="Volver al menú",bg="#0844A4",fg="white",width=12, font=("Arial", 10), command=volverMenu)
-volverbt.place(relx=1.0, rely=1.0, anchor='se', x=-480, y=-14)
+volverbt.place(relx=1.0, rely=1.0, anchor='se', x=-480, y=-8)
 
 print("Abriendo cámara para la toma de fotografía.")
 #Bucle de Tkinter, mantiene ventana abierta y actualiza el contenido
-actualizar_frame()
+if actFlag:
+    actualizar_frame()
 window.mainloop()
 
 #Al cerrar la ventana, se liberan los recursos de cámara y se destruyen las ventanas creadas.
