@@ -72,11 +72,11 @@ textbox_contraseña = tk.Entry(ventana, show="*", width=10, bg="gray",fg="white"
 textbox_contraseña.pack()
 
 # Crear un botón para verificar la contraseña
-boton_verificar = tk.Button(ventana, text="Verificar",bg="black",fg="white",width=10, font=("Arial", 12), command=verificar_contraseña)
+boton_verificar = tk.Button(ventana, text="Verificar",bg="#0844A4",fg="white",width=10, font=("Arial", 12), command=verificar_contraseña)
 boton_verificar.pack()
 
 # Crear un botón para salir de la aplicación
-boton_salir = tk.Button(ventana, text="Salir",bg="red",fg="white",width=10, font=("Arial", 12), command=salir)
+boton_salir = tk.Button(ventana, text="Salir",bg="#3D8AF7",fg="white",width=10, font=("Arial", 12), command=salir)
 boton_salir.pack(side="bottom", anchor="se",padx=10, pady=10)
 #Metodo para buscar el valor en la base de Datos
 def buscar_valor(objeto, valor_buscado):

@@ -33,11 +33,11 @@ imagen_label.pack(pady=5)
 
 # Crear un label para la contraseña
 inquilino = sys.argv[1]
-label = tk.Label(ventana, text="ACCESO AUTORIZADO \n Bienvenid@ "+inquilino)
+label = tk.Label(ventana, text="ACCESO AUTORIZADO \n Bienvenid@ "+inquilino, font=("Arial", 12))
 label.pack()
 
 # Crear un botón para salir de la aplicación
-boton_salir = tk.Button(ventana, text="Salir", command=salir)
+boton_salir = tk.Button(ventana, text="Salir", command=salir, bg="#3D8AF7", fg="white")
 boton_salir.pack()
 
 # Ejecutar la aplicación
