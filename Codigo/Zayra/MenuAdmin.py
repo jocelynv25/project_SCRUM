@@ -38,12 +38,13 @@ ventana = tk.Tk()
 ventana.title("Menú del administrador")
 
 #Ajusta la ventana 
-ventana.minsize(width=300, height=500)
-ventana.maxsize(width=300, height=500)
+ancho_ventana = 300
+alto_ventana = 480
+
+ventana.minsize(width=ancho_ventana, height=alto_ventana)
+ventana.maxsize(width=ancho_ventana, height=alto_ventana)
 ventana.config(padx=35, pady=35)
 
-ancho_ventana = 300
-alto_ventana = 600
 ancho_pan = ventana.winfo_screenwidth()
 alto_pan = ventana.winfo_screenheight()
 x = (ancho_pan - ancho_ventana) // 2
@@ -66,7 +67,7 @@ ventana.grid_columnconfigure(2, weight=1)
 ventana.resizable(False, False)
  
 titulo = tk.Label(ventana, text="Menu", font=("Arial", 20))
-titulo.grid(column=0,row=1,padx=30, pady=30)
+titulo.grid(column=0,row=1,padx=10, pady=10)
 
 
 #Botones
@@ -83,10 +84,10 @@ boton4=tk.Button(ventana, text="Consultar intrusos", command = showConsultarInt,
 boton4.grid(column=0,row=6, padx=5, pady=5)
 
 boton4=tk.Button(ventana, text="Ver accesos por código", command = showConsulAccCod, fg="white", font=("Helvetica", 14),width=20, height=1,bg="#0844A4")
-boton4.grid(column=0,row=6, padx=5, pady=5)
+boton4.grid(column=0,row=7, padx=5, pady=5)
 
 boton5=tk.Button(ventana, text="Salir", command = salir, fg="white",  font=("Helvetican", 14),bg="#3D8AF7")
-boton5.grid(column=0,row=10, padx=40, pady=40)
+boton5.grid(column=0,row=8, padx=8, pady=8)
 
 #messagebox.showinfo("Acceso correcto", "Ha accedido como administrador.")
 ventana.mainloop()
