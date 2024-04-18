@@ -1,6 +1,8 @@
+import subprocess
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+import cv2
 import firebase_admin
 from firebase_admin import credentials , db
 
@@ -10,7 +12,13 @@ firebase_admin.initialize_app(cred,{'databaseURL': 'https://proyectonoemi-449f2-
 ref = db.reference('/')
 users_ref = ref.child('Inquilinos')
 
-#import sys
+global nameFound
+
+def showAccAut(inquilino):
+    pathACC = 'C:/Users/jocel/Documents/project_SCRUM/Codigo/AccAutorizado.py'
+    subprocess.Popen(['python', pathACC, inquilino])
+    cv2.destroyAllWindows()
+    ventana.withdraw()
 
 # Función para verificar la contraseña
 def verificar_contraseña():
@@ -21,6 +29,8 @@ def verificar_contraseña():
     # Llamar a la función buscar_valor con los datos de la base de datos y el valor buscado
     if not buscar_valor(data, valor_buscado):
         messagebox.showerror("Error","Error: Codigo de Acceso incorrecto"+"\n  Ingresar su Codigo de Acceso o Contactar a su Administrador")
+    else:
+        showAccAut(nameFound)
 
 
 
@@ -70,10 +80,12 @@ boton_salir = tk.Button(ventana, text="Salir",bg="red",fg="white",width=10, font
 boton_salir.pack(side="bottom", anchor="se",padx=10, pady=10)
 #Metodo para buscar el valor en la base de Datos
 def buscar_valor(objeto, valor_buscado):
+    global nameFound
 
     if isinstance(objeto, dict):
-        if "Codigo de Acceso" in objeto and objeto["Codigo de Acceso"] == valor_buscado:
+        if "Codigo" in objeto and objeto["Codigo"] == valor_buscado:
             print(f"El valor '{valor_buscado}' se encontró en la clave 'Codigo de Acceso'")
+            nameFound = objeto.get("Nombre")
             print(objeto.get("Nombre")) #Recuperar el nombre del Inquilino con ese Codigo de Acceso
             return True  # Valor encontrado
         else:
