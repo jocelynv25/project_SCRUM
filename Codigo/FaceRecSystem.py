@@ -45,18 +45,6 @@ def bajar_imagenes(directorio):
 
 bajar_imagenes('Inquilinos/')
 
-
-'''
-#Lee las imagenes de la carpeta (local)
-for lis in lista:
-    #lee imagenes de los rostros
-    imgdb = cv2.imread(f'{path}/{lis}')
-    #se guarda imagen en arreglo de imagenes
-    images.append(imgdb)
-    #se guarda el nombre de la persona de la imagen
-    clases.append(os.path.splitext(lis)[0])
-'''
-
 #imprime todos los nombres de las personas encontradas
 print(clases)
 
@@ -133,7 +121,7 @@ def showMenuAdm():
     cap.release()
 
 
-#llamamos la funcion de codificar
+#llamamos la funcion de codificar, para codificar todos los rostros que hay en la base de datos
 rostroscod = codRostros(images)
 
 #Realizar videocaptura, se conecta a la camara con el indice de la camara a utilizar.
