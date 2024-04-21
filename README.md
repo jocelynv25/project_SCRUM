@@ -13,7 +13,7 @@ El reconocimiento facial, se ha usado en los últimos años en diferentes ramas,
 -	Si el sistema reconoce al inquilino se le permite el acceso al fraccionamiento automáticamente y se guarda la hora en la que entró o salió del fraccionamiento. 
 - Cuando el sistema no reconozca a la persona va a guardar la foto a manera de alerta, y se la mostrara al encargado de seguridad, indicando la hora en la que intento pasar.
 - El sistema debe registrar en una base de datos toda información (nombres de los inquilinos, fotos de los inquilinos, fotos de los detectados como no inquilinos, etc.) requerida para el funcionamiento del sistema. 
-- Desarrollar una Interfaz amigable de acuerdo a las necesidades o acciones a realizar por parte de cada uno de los usuarios (Encargado de seguridad o Inquilino) dentro del sistema tales como “registro nuevo inquilino”, “eliminar inquilino”, “historial de entradas y salidas”, etc
+- Desarrollar una Interfaz amigable de acuerdo a las necesidades o acciones a realizar por parte de cada uno de los usuarios (Encargado de seguridad o Inquilino) dentro del sistema tales como “registro nuevo inquilino”, "alertas de intrusos", "consultar inquilinos", etc.
 - El sistema obtendrá la fotografía por medio de la cámara de la computadora. 
 
 _A continuación se muestran los link correspondientes a los Readme:_
