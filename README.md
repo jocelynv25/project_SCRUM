@@ -17,7 +17,7 @@ El reconocimiento facial, se ha usado en los últimos años en diferentes ramas,
 - El sistema obtendrá la fotografía por medio de la cámara de la computadora. 
 
 _A continuación se muestran los link correspondientes a los Readme:_
-- [Readme Diagramas](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Diagramas/README.md)
+- [Readme Diagramas](Diagramas/README.md)
 - [Readme Interfaz gráfica](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Interfaz%20grafica/README.md)
 - [Readme Base de datos](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Base%20de%20datos/README.md)
 - [Readme Código](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Codigo/README.md)
