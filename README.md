@@ -18,6 +18,6 @@ El reconocimiento facial, se ha usado en los últimos años en diferentes ramas,
 
 _A continuación se muestran los link correspondientes a los Readme:_
 - [Readme Diagramas](Diagramas/README.md)
-- [Readme Interfaz gráfica](Interfaz grafica/README.md)
+- [Readme Diagramas](Interfaz grafica/README.md)
 - [Readme Base de datos](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Base%20de%20datos/README.md)
 - [Readme Código](https://github.com/jocelynv25/project_SCRUM/blob/145e4789b4993d776bc332217ad0fb4ee8161c06/Codigo/README.md)
