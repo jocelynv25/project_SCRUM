@@ -5,7 +5,7 @@ Se presentan 2 actores (inquilino, y administrador) con sus respectivos casos de
 
 
 ### Diagrama de clases
-![dd5eecf1-f7a9-4ecf-be90-b0295628b1a0](https://github.com/jocelynv25/project_SCRUM/assets/147032231/bfa1afeb-54ab-4f04-82a5-99ea59fc1339)
+![image](https://github.com/jocelynv25/project_SCRUM/assets/147032231/352d1804-44df-4078-aae3-b65767b1363f)
 
 
 ### Diagrama de secuencia
